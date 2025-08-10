@@ -20,9 +20,10 @@ Diabetes mellitus is a chronic, lifelong condition that requires continuous moni
 From 1990 to 2020, there has been a steady increase in the prevalence of type 2 diabetes across all observed regions. Projections through 2040 indicate a high likelihood of further global growth to 7,000 or more cases per 100,000 population, and under an unfavorable scenario — nearly 10,000 cases. Even under the most optimistic scenario, a return to the levels recorded in the early 2000s is not expected.
 The data confirm the need to strengthen preventive measures, improve early diagnosis, and expand access to treatment, especially in countries with rising incidence rates and insufficient medical coverage. [Khan et all](https://pmc.ncbi.nlm.nih.gov/articles/PMC7310804/) .
 We aim to develop a machine learning model that predicts the risk of developing type 2 diabetes mellitus based on complex data, including demographics, laboratory indicators, behavioral indicators, social determinants, and family history.
-## Methodology
+
 The goal of this project is to develop a functional diagnostic survey that identifies key risk factors for type 2 diabetes and supports individuals in taking preventive measures. With the Kazakhstani government planning to discontinue support for people with diabetes, this initiative seeks to reduce the incidence of this largely preventable condition through early detection and lifestyle interventions. The survey will allow any citizen to easily assess their personal risk and take action before the disease develops.
-However, due to absence of open source data with diabetes for Kazakhstan, this project takes open data by National Health and Nutrition Examination Survey (NHANES), United States. The pilot version of the survey and models will be done based on the NHANES dataset.
+## Methodology
+Due to the lack of publicly available diabetes-related datasets for Kazakhstan, this project utilizes open data from the **National Health and Nutrition Examination Survey (NHANES)**, United States. The pilot version of the survey and predictive models is therefore based on NHANES data.
 This project uses self-reported NHANES questionnaire data (2013-2016) including demographics (age, sex, race, income), lifestyle factors (activity, smoking, alcohol, sleep), and health history (family/self-reported conditions), while excluding clinical measurements.  We selected two time periods (2013–2014 and 2015–2016) and processed the data separately using the scripts `data_processing_*`. 
 1.	RIAGENDR - Gender
 2.	RIDAGEYR - Age
@@ -61,30 +62,30 @@ This project uses self-reported NHANES questionnaire data (2013-2016) including 
 35.	DIQ175V - Craving for sweet/eating a lot of sugar
 Target variable: Diabetes status (ICD-10 code E11) as binary classification (1 = E11 present, 0 = absent).
 ## Variable Selection and Survey
-Variables/Questions for survey were selected based on 
-1) Researches
-2) Feature Importance
-The table below presents the survey variables, their corresponding questions, and published studies that provide evidence of their association with diabetes.
-RIDAGEYR - Возраст/Age,  Chew, B. H., Ghazali, S. S., Ismail, M., Haniff, J., & Bujang, M. A. (2013). Age ≥ 60 years was an independent risk factor for diabetes-related complications despite good control of cardiovascular risk factors in patients with type 2 diabetes mellitus. Experimental Gerontology, 48(5), 485–491. https://doi.org/10.1016/j.exger.2013.02.017
-BMXBMI - Индекс массы тела (ИМТ, кг/м²)/Body Mass Index (BMI, kg/m²), Gray, N., Picone, G., Sloan, F., & Yashkin, A. (2015). The relationship between BMI and onset of diabetes mellitus and its complications. Journal of Endocrinology and Diabetes, 3(2), 1–9. https://doi.org/10.19080/OAJECR.2015.03.555606
-PMCID: PMC4457375
-BMXHT	- Рост (см)/Height (cm), Based on Feature Importance
-BPXSY1 - Систолическое (верхнее) давление, мм рт. ст./Systolic blood pressure (mm Hg), Based on Feature Importance
-BPXDI1 - Диастолическое (нижнее) давление, мм рт. ст./Diastolic blood pressure (mm Hg), Based on Feature Importance
-RIAGENDR - Пол/Gender, Based on Feature Importance
-HUQ010 - Как Вы оцениваете своё общее состояние здоровья?/How would you rate your general health? Based on Feature Importance
-HUQ030 - Есть ли у Вас постоянное место (врач или поликлиника), куда Вы обращаетесь при необходимости?/Do you have a usual place to go when you are sick or need health advice? Based on Feature Importance
-MCQ010 - Ставил ли Вам врач диагноз «астма»?/Has a doctor ever told you that you have asthma? Based on Feature Importance
-MCQ080 - Сообщал ли Вам врач о наличии лишнего веса?/Has a doctor ever told you that you are overweight? Gray, N., Picone, G., Sloan, F., & Yashkin, A. (2015). The relationship between BMI and onset of diabetes mellitus and its complications. Journal of Endocrinology and Diabetes, 3(2), 1–9. https://doi.org/10.19080/OAJECR.2015.03.555606
-PMCID: PMC4457375
-MCQ160A	- Ставил ли Вам врач диагноз «артрит»?/Has a doctor ever told you that you have arthritis? Tian, Z., McLaughlin, J., Verma, A., Chinoy, H., & Heald, A. H. (2021). The relationship between rheumatoid arthritis and diabetes mellitus: A systematic review and meta-analysis. Diabetology & Metabolic Syndrome, 13(1), 86. https://doi.org/10.1186/s13098-021-00698-4
-PMCID: PMC8189616
-MCQ160B	- Ставил ли Вам врач диагноз «сердечная недостаточность»?/Has a doctor ever told you that you have congestive heart failure? Based on Feature Importance
-MCQ160C	- Ставил ли Вам врач диагноз «ишемическая болезнь сердца»?/Has a doctor ever told you that you have coronary heart disease? Based on Feature Importance
-MCQ300C	- Был ли у Ваших близких родственников сахарный диабет?/Have any of your close relatives been diagnosed with diabetes? Ali, O. (2013). Genetics of type 2 diabetes. World Journal of Diabetes, 4(4), 114–123. https://doi.org/10.4239/wjd.v4.i4.114
-PMCID: PMC3746083
-SLQ050_Yes - Замечали ли Вы у себя проблемы со сном?/Have you ever had trouble sleeping? Darraj, A. (2023). The link between sleeping and type 2 diabetes: A systematic review. Cureus, 15(11), e49371. https://doi.org/10.7759/cureus.49371
-PMCID: PMC10693913
+
+Survey variables were selected based on:
+1. Published research on risk factors for type 2 diabetes  
+2. Feature importance analysis from our machine learning models  
+
+The table below lists each variable, its corresponding survey question, and the supporting research (if applicable).
+
+| Variable | Question (Russian / English) | Source / Evidence |
+|----------|------------------------------|-------------------|
+| **RIDAGEYR** | Возраст / Age | Chew, B. H., et al. (2013). *Age ≥ 60 years was an independent risk factor for diabetes-related complications despite good control of cardiovascular risk factors in patients with type 2 diabetes mellitus*. Experimental Gerontology, 48(5), 485–491. [DOI](https://doi.org/10.1016/j.exger.2013.02.017) |
+| **BMXBMI** | Индекс массы тела (ИМТ, кг/м²) / Body Mass Index (BMI, kg/m²) | Gray, N., et al. (2015). *The relationship between BMI and onset of diabetes mellitus and its complications*. Journal of Endocrinology and Diabetes, 3(2), 1–9. [DOI](https://doi.org/10.19080/OAJECR.2015.03.555606), [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC4457375/) |
+| **BMXHT** | Рост (см) / Height (cm) | Based on Feature Importance |
+| **BPXSY1** | Систолическое давление (мм рт. ст.) / Systolic blood pressure (mm Hg) | Based on Feature Importance |
+| **BPXDI1** | Диастолическое давление (мм рт. ст.) / Diastolic blood pressure (mm Hg) | Based on Feature Importance |
+| **RIAGENDR** | Пол / Gender | — |
+| **HUQ010** | Как Вы оцениваете своё общее состояние здоровья? / How would you rate your general health? | Based on Feature Importance |
+| **HUQ030** | Есть ли у Вас постоянное место (врач или поликлиника), куда Вы обращаетесь при необходимости? / Do you have a usual place to go when you are sick or need health advice? | Based on Feature Importance |
+| **MCQ010** | Ставил ли Вам врач диагноз «астма»? / Has a doctor ever told you that you have asthma? | Based on Feature Importance |
+| **MCQ080** | Сообщал ли Вам врач о наличии лишнего веса? / Has a doctor ever told you that you are overweight? | Gray, N., et al. (2015). *The relationship between BMI and onset of diabetes mellitus and its complications*. [DOI](https://doi.org/10.19080/OAJECR.2015.03.555606), [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC4457375/) |
+| **MCQ160A** | Ставил ли Вам врач диагноз «артрит»? / Has a doctor ever told you that you have arthritis? | Tian, Z., et al. (2021). *The relationship between rheumatoid arthritis and diabetes mellitus: A systematic review and meta-analysis*. Diabetology & Metabolic Syndrome, 13(1), 86. [DOI](https://doi.org/10.1186/s13098-021-00698-4), [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC8189616/) |
+| **MCQ160B** | Ставил ли Вам врач диагноз «сердечная недостаточность»? / Has a doctor ever told you that you have congestive heart failure? | Based on Feature Importance |
+| **MCQ160C** | Ставил ли Вам врач диагноз «ишемическая болезнь сердца»? / Has a doctor ever told you that you have coronary heart disease? | Based on Feature Importance |
+| **MCQ300C** | Был ли у Ваших близких родственников сахарный диабет? / Have any of your close relatives been diagnosed with diabetes? | Ali, O. (2013). *Genetics of type 2 diabetes*. World Journal of Diabetes, 4(4), 114–123. [DOI](https://doi.org/10.4239/wjd.v4.i4.114), [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC3746083/) |
+| **SLQ050_Yes** | Замечали ли Вы у себя проблемы со сном? / Have you ever had trouble sleeping? | Darraj, A. (2023). *The link between sleeping and type 2 diabetes: A systematic review*. Cureus, 15(11), e49371. [DOI](https://doi.org/10.7759/cureus.49371), [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC10693913/) |
 
 ## Feature Importance
 

@@ -45,14 +45,12 @@ prob_to_percentile <- function(p) {
   as.numeric(approx(x = anchors_prob, y = anchors_pct, xout = p, ties = "ordered")$y)
 }
 
-# Цвет по перцентилю
+# ── Цвет по перцентилю (новые зоны) ────────────────────────────────────────────
 get_color_by_perc <- function(perc) {
-  if (perc < 50) {
+  if (perc < 75) {
     "#10B981" # зелёный
-  } else if (perc < 75) {
-    "#FBBF24" # жёлтый
   } else if (perc < 90) {
-    "#FB923C" # оранжевый
+    "#FBBF24" # жёлтый
   } else {
     "#EF4444" # красный
   }
@@ -131,9 +129,8 @@ ui <- page_sidebar(
     useShinyjs(),
     tags$style(custom_css),
     
-    # === ТВОЙ НОВЫЙ БЛОК ВОПРОСОВ ===
+    # Блок ввода
     tagList(
-      # --- Основные данные ---
       numericInput("RIDAGEYR", "Возраст (лет):", value = NA, min = 10, max = 100, step = 1),
       numericInput("BMXBMI", "Индекс массы тела (ИМТ, кг/м²):", value = NA, min = 10, max = 70, step = 0.1),
       numericInput("BMXHT",  "Рост (см):", value = NA, min = 100, max = 230, step = 0.1),
@@ -146,37 +143,18 @@ ui <- page_sidebar(
       
       tags$hr(),
       h5("Сведения о здоровье"),
-      
       selectInput("RIAGENDR", "Пол:", choices = c("Мужской" = 1, "Женский" = 2)),
-      
-      selectInput(
-        "HUQ010", "Как Вы оцениваете своё общее состояние здоровья?",
-        choices = c("Отлично" = 5, "Очень хорошо" = 4, "Хорошо" = 3, "Удовлетворительно" = 2, "Плохо" = 1)
-      ),
-      
-      selectInput(
-        "HUQ030",
-        "Есть ли у Вас постоянное место (врач или поликлиника), куда Вы обращаетесь при необходимости?",
-        choices = c("Да" = 1, "Нет" = 0)
-      ),
-      
-      selectInput("MCQ010",  "Ставил ли Вам врач диагноз «астма»?",                       choices = c("Да" = 1, "Нет" = 0)),
-      selectInput("MCQ080",  "Сообщал ли Вам врач о наличии лишнего веса?",              choices = c("Да" = 1, "Нет" = 0)),
-      selectInput("MCQ160A", "Ставил ли Вам врач диагноз «артрит»?",                     choices = c("Да" = 1, "Нет" = 0)),
-      selectInput("MCQ160B", "Ставил ли Вам врач диагноз «сердечная недостаточность»?",  choices = c("Да" = 1, "Нет" = 0)),
-      selectInput("MCQ160C", "Ставил ли Вам врач диагноз «ишемическая болезнь сердца»?", choices = c("Да" = 1, "Нет" = 0)),
-      
-      selectInput(
-        "MCQ300C",
-        "Был ли у Ваших близких родственников сахарный диабет?",
-        choices = c("Да" = 1, "Нет" = 0)
-      ),
-      
-      selectInput(
-        "SLQ050_Yes",
-        "Замечали ли Вы у себя проблемы со сном?",
-        choices = c("Да" = 1, "Нет" = 0)
-      )
+      selectInput("HUQ010","Как Вы оцениваете своё общее состояние здоровья?",
+                  choices = c("Отлично"=5,"Очень хорошо"=4,"Хорошо"=3,"Удовлетворительно"=2,"Плохо"=1)),
+      selectInput("HUQ030","Есть ли у Вас постоянное место (врач или поликлиника), куда Вы обращаетесь при необходимости?",
+                  choices = c("Да"=1,"Нет"=0)),
+      selectInput("MCQ010","Ставил ли Вам врач диагноз «астма»?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("MCQ080","Сообщал ли Вам врач о наличии лишнего веса?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("MCQ160A","Ставил ли Вам врач диагноз «артрит»?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("MCQ160B","Ставил ли Вам врач диагноз «сердечная недостаточность»?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("MCQ160C","Ставил ли Вам врач диагноз «ишемическая болезнь сердца»?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("MCQ300C","Был ли у Ваших близких родственников сахарный диабет?", choices=c("Да"=1,"Нет"=0)),
+      selectInput("SLQ050_Yes","Замечали ли Вы у себя проблемы со сном?", choices=c("Да"=1,"Нет"=0))
     ),
     
     div(class="mt-3",
@@ -200,26 +178,18 @@ ui <- page_sidebar(
       card_body(
         uiOutput("ensemble_text"),
         div(class="small-note", uiOutput("prob_note")),
-        div(class="progress-wrap",
-            div(id="progbar", class="progress-bar-soft")
-        ),
-        # Линейка-легенда
+        div(class="progress-wrap", div(id="progbar", class="progress-bar-soft")),
+        # Линейка-легенда (обновлённая: только 75 и 90)
         div(
           class="ruler",
           div(class="axis"),
-          div(class="tick", style="left:50%;"),
-          div(class="tick-label", style="left:50%;", "50-й"),
           div(class="tick", style="left:75%;"),
           div(class="tick-label", style="left:75%;", "75-й"),
           div(class="tick", style="left:90%;"),
           div(class="tick-label", style="left:90%;", "90-й"),
-          div(class="tick", style="left:95%;"),
-          div(class="tick-label", style="left:95%;", "95-й"),
-          div(
-            id="marker", class="marker", style="left:0%;",
-            div(class="dot"),
-            div(id="marker_lbl", class="lbl","")
-          )
+          div(id="marker", class="marker", style="left:0%;",
+              div(class="dot"),
+              div(id="marker_lbl", class="lbl",""))
         ),
         div(class="mt-3", uiOutput("risk_tip"))
       )
@@ -240,7 +210,6 @@ ui <- page_sidebar(
 
 # ── SERVER ─────────────────────────────────────────────────────────────────────
 server <- function(input, output, session) {
-  
   # Храним последний расчёт для PDF
   last <- reactiveValues(
     perc = NA_real_, prob = NA_real_,
@@ -254,7 +223,7 @@ server <- function(input, output, session) {
     updateNumericInput(session, "BMXHT",  value = NA)
     updateNumericInput(session, "BPXSY1", value = NA)
     updateNumericInput(session, "BPXDI1", value = NA)
-    updateSelectInput(session, "RIAGENDR", selected = 2) # по умолчанию Женский
+    updateSelectInput(session, "RIAGENDR", selected = 2)
     updateSelectInput(session, "HUQ010", selected = 3)
     updateSelectInput(session, "HUQ030", selected = 1)
     updateSelectInput(session, "MCQ010", selected = 0)
@@ -308,15 +277,11 @@ server <- function(input, output, session) {
     new_matrix <- as.matrix(new_data_df)
     dnew <- xgb.DMatrix(data = new_matrix, missing = NA)
     pred_xgb <- as.numeric(predict(model, dnew))
-    
-    pred_lgb <- as.numeric(predict(lgb_model, new_matrix)) # если Booster — ок
-    
+    pred_lgb <- as.numeric(predict(lgb_model, new_matrix))
     pred_svm_prob <- as.numeric(prob_from_svm(svm_model, new_data_df))
-    
     new_short_df <- new_data_df[, short_model_cols, drop = FALSE]
     dnew_short <- xgb.DMatrix(data = as.matrix(new_short_df), missing = NA)
     pred_short_xgb <- as.numeric(predict(short_xgb_model, dnew_short))
-    
     pred_prob_rf <- as.numeric(prob_from_rf(rf_model, new_data_df))
     
     pred_ensemble <- mean(c(pred_xgb, pred_lgb, pred_svm_prob, pred_short_xgb, pred_prob_rf))
@@ -354,16 +319,28 @@ server <- function(input, output, session) {
       lbl.innerText = "%s-й";
     ', perc, bar_color, bar_color, bar_color, perc_round))
     
-    tip <- if (perc < 50) {
-      "Низкий перцентиль риска (ниже медианы базы). Продолжай беречь сон, питание и движение."
-    } else if (perc < 75) {
-      "Умеренный перцентиль риска (50–75). Усиль базу: шаги 8–10k/день, силовые 2–3р/нед, фокус на белке."
+    # Рекомендации по новым зонам
+    tip <- if (perc < 75) {
+      paste(
+        "Зелёная зона (<75-й). Хороший ориентир — удерживать баланс:",
+        "• Сон 7–9 ч; шаги 8–10k/день; 2–3 силовые тренировки/нед;",
+        "• Белок 1.2–1.6 г/кг, клетчатка ≥25–30 г/день, насыщенные жиры ↓;",
+        "• Контроль АД, стресса и гигиены сна. Профилактика — твой суперсиловой режим.", sep="<br/>"
+      )
     } else if (perc < 90) {
-      "Повышенный перцентиль (75–90). Обсуди с врачом скрининг: глюкоза натощак, HbA1c, липиды, АД-мониторинг."
-    } else if (perc < 95) {
-      "Высокий перцентиль (90–95). Рекомендована ранняя консультация специалиста и персональный план коррекции."
+      paste(
+        "Жёлтая зона (75–89-й). Усиль профилактику:",
+        "• Пересмотри рацион (дефицит 10–15% при избытке веса, сахар/рафинированные ↓);",
+        "• Тренинг: силовые 3 р/нед + кардио 150–300 мин/нед;",
+        "• Обсуди с врачом базовый скрининг: глюкоза натощак, HbA1c, липидный профиль, мониторинг АД.", sep="<br/>"
+      )
     } else {
-      "Очень высокий перцентиль (95+). Нужен прицельный клинико-лабораторный чек-ап в ближайшее время."
+      paste(
+        "Красная зона (≥90-й). Нужны точные шаги:",
+        "• Прицельный чек-ап: HbA1c, ФГ, ОГТТ при необходимости, липиды, АД (домашний мониторинг);",
+        "• Ранняя консультация специалиста и персональный план коррекции веса, питания и активности;",
+        "• Краткосрочный план с ежемесячной переоценкой метрик.", sep="<br/>"
+      )
     }
     output$risk_tip <- renderUI(HTML(sprintf("<div>%s</div>", tip)))
     
@@ -384,7 +361,7 @@ server <- function(input, output, session) {
     last$ts <- format(Sys.time(), "%Y-%m-%d %H:%M")
   })
   
-  # ── PDF «Паспорт риска» ───────────────────────────────────────────────────────
+  # ── PDF «Паспорт риска» (с теми же зонами) ────────────────────────────────────
   output$dl_pdf <- downloadHandler(
     filename = function() {
       ts <- if (is.null(last$ts)) "now" else last$ts
@@ -403,10 +380,10 @@ server <- function(input, output, session) {
       grid::grid.text(sprintf("Перцентиль: %s-й   (вероятность: %.1f%%)", perc, prob),
                       x=.5, y=.91, gp=grid::gpar(fontsize=14))
       
-      # Линейка
+      # Линейка (только 75 и 90)
       x0 <- .1; x1 <- .9; y <- .85
       grid::grid.lines(x=c(x0,x1), y=c(y,y), gp=grid::gpar(col="#E5E7EB", lwd=6, lineend="round"))
-      ticks <- c(50,75,90,95)
+      ticks <- c(75,90)
       for (t in ticks) {
         xt <- x0 + (x1-x0)*(t/100)
         grid::grid.lines(x=c(xt,xt), y=c(y-0.02,y+0.02), gp=grid::gpar(col="#9CA3AF", lwd=3))
@@ -417,19 +394,15 @@ server <- function(input, output, session) {
       grid::grid.circle(x=xu, y=y, r=0.012, gp=grid::gpar(fill=color, col=NA))
       grid::grid.text(sprintf("%d-й", perc), x=xu, y=y-0.04, gp=grid::gpar(col=color, cex=.85, fontface="bold"))
       
-      # Рекомендация по зоне
-      tip <- if (perc < 50) {
-        "Низкий перцентиль: поддерживай сон, питание, движение."
-      } else if (perc < 75) {
-        "Умеренный перцентиль: шаги 8–10k/день, силовые 2–3р/нед, фокус на белке."
+      # Рекомендация по зонам
+      tip <- if (perc < 75) {
+        "Зелёная зона (<75-й): поддерживай профилактику — сон 7–9 ч, шаги 8–10k/день, силовые 2–3 р/нед, белок 1.2–1.6 г/кг, клетчатка ≥25–30 г/д, контроль АД и стресса."
       } else if (perc < 90) {
-        "Повышенный: обсуди скрининг (глюкоза, HbA1c, липиды, АД)."
-      } else if (perc < 95) {
-        "Высокий: ранняя консультация специалиста, персональный план."
+        "Жёлтая зона (75–89-й): усили профилактику; обсуди с врачом скрининг (глюкоза натощак, HbA1c, липидный профиль), увеличь долю силовых и аэробной нагрузки."
       } else {
-        "Очень высокий: прицельный клинико-лабораторный чек-ап в ближайшее время."
+        "Красная зона (≥90-й): прицельный клинико-лабораторный чек-ап в ближайшее время и персональный план коррекции."
       }
-      grid::grid.text(paste0("Рекомендация: ", tip), x=.5, y=.78, gp=grid::gpar(cex=0.95))
+      grid::grid.text(paste0("Рекомeндация: ", tip), x=.5, y=.78, gp=grid::gpar(cex=0.95))
       
       # Таблица моделей
       if (!is.null(last$by_model)) {

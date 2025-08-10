@@ -58,32 +58,44 @@ The final list of selected variables:
 33.	PFQ020 - Mobility limitations
 34.	DIQ175U - Thirst
 35.	DIQ175V - Craving for sweet/eating a lot of sugar
-
 Target variable: Diabetes status (ICD-10 code E11) as binary classification (1 = E11 present, 0 = absent).
+## Variable Selection
+Variables were selected based on 
+1) Researches
+2) Feature Importance
+| Код             | Вопрос (RU)                                                                                   | Question (EN)                                                            |
+| --------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **BMXBMI**      | Индекс массы тела (ИМТ, кг/м²)                                                                | Body Mass Index (BMI, kg/m²)                                             |
+| **BMXHT**       | Рост (см)                                                                                     | Height (cm)                                                              |
+| **BPXSY1**      | Систолическое (верхнее) давление, мм рт. ст.                                                  | Systolic blood pressure (mm Hg)                                          |
+| **BPXDI1**      | Диастолическое (нижнее) давление, мм рт. ст.                                                  | Diastolic blood pressure (mm Hg)                                         |
+| **RIAGENDR**    | Пол                                                                                           | Gender                                                                   |
+| **HUQ010**      | Как Вы оцениваете своё общее состояние здоровья?                                              | How would you rate your general health?                                  |
+| **HUQ030**      | Есть ли у Вас постоянное место (врач или поликлиника), куда Вы обращаетесь при необходимости? | Do you have a usual place to go when you are sick or need health advice? |
+| **MCQ010**      | Ставил ли Вам врач диагноз «астма»?                                                           | Has a doctor ever told you that you have asthma?                         |
+| **MCQ080**      | Сообщал ли Вам врач о наличии лишнего веса?                                                   | Has a doctor ever told you that you are overweight?                      |
+| **MCQ160A**     | Ставил ли Вам врач диагноз «артрит»?                                                          | Has a doctor ever told you that you have arthritis?                      |
+| **MCQ160B**     | Ставил ли Вам врач диагноз «сердечная недостаточность»?                                       | Has a doctor ever told you that you have congestive heart failure?       |
+| **MCQ160C**     | Ставил ли Вам врач диагноз «ишемическая болезнь сердца»?                                      | Has a doctor ever told you that you have coronary heart disease?         |
+| **MCQ300C**     | Был ли у Ваших близких родственников сахарный диабет?                                         | Have any of your close relatives been diagnosed with diabetes?           |
+| **SLQ050\_Yes** | Замечали ли Вы у себя проблемы со сном?                                                       | Have you ever had trouble sleeping?                                      |
+
+
 ## NHANES Data Collection and Processing
 This project retrieves and processes data from the National Health and Nutrition Examination Survey (NHANES) using the nhanesA R package.
 The workflow integrates data from all major NHANES components for a given survey cycle, cleans them, and produces a unified dataset ready for analysis.
 ## Components
 For each NHANES cycle, data are collected from the following components:
-### Demographic – Age, sex, race/ethnicity, education, income, etc.
+Demographic – Age, sex, race/ethnicity, education, income, etc.
+Dietary – Nutrient intake, dietary habits, food frequency.
+Questionnaire – Health-related interviews, lifestyle factors.
+Examination – Physical measurements, medical examinations.
+Laboratory – Clinical and biochemical test results.
 
-### Dietary – Nutrient intake, dietary habits, food frequency.
-
-### Questionnaire – Health-related interviews, lifestyle factors.
-
-### Examination – Physical measurements, medical examinations.
-
-### Laboratory – Clinical and biochemical test results.
-
-## Data Cleaning
+## Data Cleaning and Preprocessing
 Remove redundant variables – Drop variables that are incompatible or irrelevant before merging.
-
 Remove duplicates – Remove duplicate records based on respondent ID (SEQN).
-
 Standardize responses – Convert "Don't Know" and "Refused" to NA.
-
 Create target variable:
-
 target = 1 if RXDRSC1 == "E11" (diabetes diagnosis, ICD-10 code).
-
 target = 0 otherwise.

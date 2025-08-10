@@ -206,3 +206,34 @@ We use a **percentile-based** method to assign risk zones:
 
 - **Red Zone** — Probability ≥ 90th percentile  
   *High risk*: Seek immediate medical attention and undergo laboratory testing.
+## Website
+## Survey Application
+
+The survey application is located in the **`project`** folder, file name: **`app.R`**.  
+
+Due to the limited RAM available on the Shiny server, the application cannot be hosted online in its current form, as it requires more memory than Shiny’s free tier provides.
+
+### Application Functionality
+
+- The web interface presents all survey questions to the user.  
+- Upon completing the survey, the server calculates the respondent’s **risk probability** and assigns them to one of three **risk zones** (Green, Yellow, or Red).  
+- Based on the assigned risk zone, the application provides **personalized recommendations** for reducing the risk of developing type 2 diabetes.
+
+### Interface Overview
+
+- **Left Panel** — Survey questions.  
+  <img width="662" height="920" alt="Survey Questions" src="https://github.com/user-attachments/assets/6cce3f1b-f34a-43bf-883f-eb4c4e93c086" />
+
+- **Center Panel** — Predicted risk zone and tailored recommendations.  
+  <img width="789" height="855" alt="Risk and Recommendations" src="https://github.com/user-attachments/assets/ef1163d8-35f1-40f6-a71d-b15b33788d0f" />
+
+- **Right Panel** — Probability predictions from each of the five ensemble models.  
+  <img width="796" height="628" alt="Model Probabilities" src="https://github.com/user-attachments/assets/3c9918fb-9f39-4ae0-a865-597cc61deef6" />
+
+- **Bottom Section** — Option to save the results as a PDF file.  
+  <img width="353" height="538" alt="Save as PDF" src="https://github.com/user-attachments/assets/d3b9f506-7176-4749-8757-17ec40b8ed14" />
+
+
+
+
+

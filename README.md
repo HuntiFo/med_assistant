@@ -60,3 +60,30 @@ The final list of selected variables:
 35.	DIQ175V - Craving for sweet/eating a lot of sugar
 
 Target variable: Diabetes status (ICD-10 code E11) as binary classification (1 = E11 present, 0 = absent).
+## NHANES Data Collection and Processing
+This project retrieves and processes data from the National Health and Nutrition Examination Survey (NHANES) using the nhanesA R package.
+The workflow integrates data from all major NHANES components for a given survey cycle, cleans them, and produces a unified dataset ready for analysis.
+## Components
+For each NHANES cycle, data are collected from the following components:
+### Demographic – Age, sex, race/ethnicity, education, income, etc.
+
+### Dietary – Nutrient intake, dietary habits, food frequency.
+
+### Questionnaire – Health-related interviews, lifestyle factors.
+
+### Examination – Physical measurements, medical examinations.
+
+### Laboratory – Clinical and biochemical test results.
+
+## Data Cleaning
+Remove redundant variables – Drop variables that are incompatible or irrelevant before merging.
+
+Remove duplicates – Remove duplicate records based on respondent ID (SEQN).
+
+Standardize responses – Convert "Don't Know" and "Refused" to NA.
+
+Create target variable:
+
+target = 1 if RXDRSC1 == "E11" (diabetes diagnosis, ICD-10 code).
+
+target = 0 otherwise.

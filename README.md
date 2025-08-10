@@ -183,3 +183,26 @@ Several variables were converted from text categories to numeric codes for model
 - **HUQ030** → Binary encoded: `0` if `"There is no place"`, otherwise `1`.
 - **Other binary variables** → Encoded as `1` if `"Yes"`, otherwise `0`.
 
+## Machine Learning in Risk estimation
+
+We developed five machine learning models to predict the risk level of the disease.  
+All models demonstrated strong performance across multiple evaluation metrics, so we employed an **ensemble approach**.  
+
+### Ensemble Process
+- Each model outputs a probability score for the positive class.
+- The final probability is calculated as the **mean** of the probabilities from all five models.
+
+### Risk Zone Classification
+We use a **percentile-based** method to assign risk zones:  
+1. Estimate probabilities for all observations in the original dataset.  
+2. Calculate quantile thresholds (75th, 89th, and 90th percentiles).  
+3. Classify individuals into one of three zones:
+
+- **Green Zone** — Probability < 75th percentile  
+  *Low risk*: Maintain current lifestyle; follow recommendations to remain in this zone.  
+
+- **Yellow Zone** — Probability between the 75th and 89th percentiles  
+  *Moderate risk*: Exercise caution; consider consulting a healthcare professional.  
+
+- **Red Zone** — Probability ≥ 90th percentile  
+  *High risk*: Seek immediate medical attention and undergo laboratory testing.

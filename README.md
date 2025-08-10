@@ -87,47 +87,63 @@ SLQ050_Yes - Замечали ли Вы у себя проблемы со сно
 PMCID: PMC10693913
 
 ## Feature Importance
+
 ### XGBoost
 <img width="2250" height="937" alt="xgboost" src="https://github.com/user-attachments/assets/ea7392fe-1854-4561-8863-e41bfff1069a" />
-- **F1 Score:** 0.9715 
-- **Accuracy:** 0.948 
-- **Gini Index:** 0.9232 
-- **Sensitivity:** 0.9778          
-- **Specificity:** 0.6623 
-- **Kolmogorov-Smirnov (KS) statistic:** 0.8268 
-### short XGBoost
+
+- **F1 Score:** 0.9715  
+- **Accuracy:** 0.9480  
+- **Gini Index:** 0.9232  
+- **Sensitivity:** 0.9778  
+- **Specificity:** 0.6623  
+- **Kolmogorov–Smirnov (KS) Statistic:** 0.8268  
+
+---
+
+### Short XGBoost
 <img width="2250" height="937" alt="short_xgb" src="https://github.com/user-attachments/assets/39ed69dc-3656-4af4-bd34-22db09ba901b" />
+
 - **F1 Score:** 0.9699  
 - **Accuracy:** 0.9451  
 - **Gini Index:** 0.9185  
 - **Sensitivity (Recall):** 0.9765  
 - **Specificity:** 0.6450  
-- **Kolmogorov–Smirnov (KS) Statistic:** 0.8129
+- **Kolmogorov–Smirnov (KS) Statistic:** 0.8129  
 
-### LightDBM
+---
+
+### LightGBM
 <img width="2250" height="937" alt="lightdbm" src="https://github.com/user-attachments/assets/e91a3ddf-ab10-4f49-aee7-5104bb63b1e1" />
-Metrics
-- **F1 Score:** 0.9726 
-- **Accuracy:** 0.95 
-- **Gini Index:** 0.9321 
-- **Sensitivity:** 0.9810          
-- **Specificity:** 0.6596
-- **Kolmogorov-Smirnov (KS) statistic:** 0.8591 
+
+- **F1 Score:** 0.9726  
+- **Accuracy:** 0.9500  
+- **Gini Index:** 0.9321  
+- **Sensitivity:** 0.9810  
+- **Specificity:** 0.6596  
+- **Kolmogorov–Smirnov (KS) Statistic:** 0.8591  
+
+---
+
 ### Random Forest
 <img width="2250" height="937" alt="rf" src="https://github.com/user-attachments/assets/0d66446d-27c9-422a-aa10-bc90ad60f971" />
-- **F1 Score:** 0.9726
-- **Accuracy:** 0.9496 
-- **Gini Index:** 0.9314
-- **Sensitivity:** 0.9882       
-- **Specificity:** 0.5872
-- **Kolmogorov-Smirnov (KS) statistic:** 0.8238
+
+- **F1 Score:** 0.9726  
+- **Accuracy:** 0.9496  
+- **Gini Index:** 0.9314  
+- **Sensitivity:** 0.9882  
+- **Specificity:** 0.5872  
+- **Kolmogorov–Smirnov (KS) Statistic:** 0.8238  
+
+---
+
 ### SVM
-- **F1 score: 0.9755331** 
-- **Accuracy: 0.9554**
-- **Gini Index:** 0.9272
-- **Sensitivity:** 0.9846          
-- **Specificity:** 0.6809 
-- **Kolmogorov-Smirnov (KS) statistic:** 0.8504 
+- **F1 Score:** 0.9755  
+- **Accuracy:** 0.9554  
+- **Gini Index:** 0.9272  
+- **Sensitivity:** 0.9846  
+- **Specificity:** 0.6809  
+- **Kolmogorov–Smirnov (KS) Statistic:** 0.8504  
+
 ## NHANES Data Collection and Processing
 This project retrieves and processes data from the National Health and Nutrition Examination Survey (NHANES) using the nhanesA R package.
 The workflow integrates data from all major NHANES components for a given survey cycle, cleans them, and produces a unified dataset ready for analysis.

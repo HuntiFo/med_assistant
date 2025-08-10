@@ -170,12 +170,16 @@ Convert all remaining character variables to factors.
 
 
 ## Numeric Encoding of Ordinal and Categorical Variables
-Several variables are converted from text categories to numeric codes for modeling:
-SLQ060 → numeric
-HUQ010: Map health ratings ("Poor", "Fair", etc.) to values 1–5.
-INDHHIN2: Map household income ranges to ordered numeric scale.
-DMDEDUC2: Map education levels to codes 1–4.
-DBQ700: Map self-reported health status to codes 1–5.
-DMDHHSIZ: Convert "7 or more" to 7; keep others as numeric.
-HUQ030: Binary encode (0 if "There is no place", otherwise 1).
-Other binary variables: 1 if "Yes", otherwise 0.
+### Variable Recoding
+Several variables were converted from text categories to numeric codes for modeling:
+
+- **SLQ060** → Converted directly to numeric.
+- **HUQ010** → Mapped health ratings to an ordinal scale:  
+  `Poor` → 1, `Fair` → 2, `Good` → 3, `Very good` → 4, `Excellent` → 5.
+- **INDHHIN2** → Mapped household income ranges to an ordered numeric scale (1–12).
+- **DMDEDUC2** → Mapped education levels to codes 1–4.
+- **DBQ700** → Mapped self-reported diet/health status to codes 1–5.
+- **DMDHHSIZ** → Converted `"7 or more people"` to `7`; kept other values numeric.
+- **HUQ030** → Binary encoded: `0` if `"There is no place"`, otherwise `1`.
+- **Other binary variables** → Encoded as `1` if `"Yes"`, otherwise `0`.
+
